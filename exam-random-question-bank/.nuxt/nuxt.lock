@@ -1,9 +1,0 @@
-{
-  "pid": 19530,
-  "startedAt": 1779244196899,
-  "command": "dev",
-  "cwd": "/Users/lizhenhu/Desktop/zhihe-0520-5/exam-random-question-bank",
-  "port": 3002,
-  "hostname": "::1",
-  "url": "http://[::1]:3002"
-}
