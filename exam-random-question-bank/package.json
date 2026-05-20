@@ -1,0 +1,24 @@
+{
+  "name": "exam-random-question-bank",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "nuxt": "^3.12.0",
+    "vue": "^3.4.0",
+    "vue-router": "^4.3.0",
+    "@pinia/nuxt": "^0.5.1",
+    "pinia": "^2.1.7",
+    "bulma": "^1.0.0",
+    "@fortawesome/fontawesome-free": "^6.5.0"
+  },
+  "devDependencies": {
+    "sass": "^1.77.0"
+  }
+}
