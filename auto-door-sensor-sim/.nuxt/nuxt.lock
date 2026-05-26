@@ -1,0 +1,9 @@
+{
+  "pid": 60444,
+  "startedAt": 1779761782704,
+  "command": "dev",
+  "cwd": "/Users/lizhenhu/Desktop/zhihe-0520-5/auto-door-sensor-sim",
+  "port": 3000,
+  "hostname": "::1",
+  "url": "http://[::1]:3000"
+}
