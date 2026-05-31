@@ -15,19 +15,19 @@
         </div>
       </div>
       <div class="column is-3">
-        <div class="stat-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
-          <p class="stat-number">{{ examStore.stats.averageScore }}</p>
-          <p class="stat-label">平均得分</p>
+        <div class="stat-card" style="background: linear-gradient(135deg, #00b894 0%, #55efc4 100%);">
+          <p class="stat-number">{{ examStore.stats.averageScore }}%</p>
+          <p class="stat-label">平均正确率</p>
         </div>
       </div>
       <div class="column is-3">
-        <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <div class="stat-card" style="background: linear-gradient(135deg, #e17055 0%, #fab1a0 100%);">
           <p class="stat-number">{{ highestScore }}</p>
           <p class="stat-label">最高分</p>
         </div>
       </div>
       <div class="column is-3">
-        <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <div class="stat-card" style="background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);">
           <p class="stat-number">{{ passRate }}%</p>
           <p class="stat-label">及格率</p>
         </div>
@@ -36,9 +36,7 @@
 
     <div v-if="examStore.results.length === 0" class="card">
       <div class="card-content has-text-centered py-6">
-        <span class="icon is-large has-text-grey">
-          <i class="fas fa-chart-bar fa-3x"></i>
-        </span>
+        <span class="icon is-large has-text-grey"><i class="fas fa-chart-bar fa-3x"></i></span>
         <p class="has-text-grey mt-3">暂无答题记录</p>
         <NuxtLink to="/papers" class="button is-primary mt-4">
           <span class="icon"><i class="fas fa-pencil-alt"></i></span>
@@ -54,12 +52,12 @@
             <thead>
               <tr>
                 <th>序号</th>
+                <th>年级</th>
                 <th>试卷名称</th>
                 <th>得分</th>
-                <th>总分</th>
                 <th>正确率</th>
-                <th>答对</th>
-                <th>答错</th>
+                <th>答对/答错</th>
+                <th>用时</th>
                 <th>评级</th>
                 <th>答题时间</th>
                 <th>操作</th>
@@ -68,25 +66,26 @@
             <tbody>
               <tr v-for="(result, index) in sortedResults" :key="result.id">
                 <td>{{ index + 1 }}</td>
+                <td><span class="grade-badge">{{ result.grade }}</span></td>
                 <td>{{ result.paperTitle }}</td>
-                <td class="has-text-weight-bold">{{ result.userScore }}</td>
-                <td>{{ result.totalScore }}</td>
+                <td class="has-text-weight-bold">{{ result.userScore }}<span class="has-text-grey">/{{ result.totalScore }}</span></td>
                 <td>
                   <div class="is-flex is-align-items-center">
                     <span class="mr-2">{{ getAccuracy(result) }}%</span>
-                    <div class="progress-bar" style="width: 100px; height: 6px;">
+                    <div class="progress-bar" style="width: 80px; height: 6px;">
                       <div class="progress-bar-fill" :style="{ width: getAccuracy(result) + '%' }"></div>
                     </div>
                   </div>
                 </td>
-                <td><span class="tag is-success">{{ result.correctCount }}</span></td>
-                <td><span class="tag is-danger">{{ result.wrongCount }}</span></td>
                 <td>
-                  <span class="tag" :class="getGradeTagClass(result)">
-                    {{ getGrade(result) }}
-                  </span>
+                  <span class="tag is-success is-small mr-1">{{ result.correctCount }}</span>
+                  <span class="tag is-danger is-small">{{ result.wrongCount }}</span>
                 </td>
-                <td>{{ formatDate(result.createdAt) }}</td>
+                <td class="is-size-7">{{ formatDuration(result.duration) }}</td>
+                <td>
+                  <span class="tag is-small" :class="getGradeTagClass(result)">{{ getGrade(result) }}</span>
+                </td>
+                <td class="is-size-7">{{ formatDate(result.createdAt) }}</td>
                 <td>
                   <button class="button is-small is-danger" @click="deleteResult(result.id)">
                     <span class="icon"><i class="fas fa-trash"></i></span>
@@ -148,6 +147,13 @@ const getGradeTagClass = (result: ExamResult) => {
 
 const formatDate = (timestamp: number) => {
   return new Date(timestamp).toLocaleString('zh-CN')
+}
+
+const formatDuration = (seconds: number) => {
+  const mins = Math.floor(seconds / 60)
+  const secs = seconds % 60
+  if (mins === 0) return `${secs}秒`
+  return `${mins}分${secs}秒`
 }
 
 const deleteResult = (id: string) => {
